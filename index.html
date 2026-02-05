@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>For mero puntuu bhuntuu💗</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+
+body{
+    height:100vh;
+    font-family:'Poppins',sans-serif;
+    background: radial-gradient(circle at top,#ffd1dc,#ff9a9e,#fad0c4);
+    overflow:hidden;
+}
+
+/* FRONT */
+.front{
+    position:absolute;
+    inset:0;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    flex-direction:column;
+    text-align:center;
+    color:#6a1b3a;
+    animation:fadeIn 1.5s ease;
+    transition:opacity 1s ease;
+}
+
+.front h1{
+    font-family:'Playfair Display',serif;
+    font-size:4.5rem;
+    letter-spacing:2px;
+}
+
+.front p{margin:15px 0 40px;opacity:.85}
+
+.timer{display:flex;gap:20px;flex-wrap:wrap;justify-content:center}
+
+.box{
+    background:rgba(255,255,255,.35);
+    backdrop-filter:blur(14px);
+    border-radius:22px;
+    padding:25px 30px;
+    min-width:110px;
+    box-shadow:0 20px 50px rgba(255,105,135,.35);
+    transition:.4s;
+}
+.box:hover{transform:translateY(-8px) scale(1.05)}
+
+.box span{font-size:2.7rem;font-weight:600;display:block}
+.box small{font-size:.8rem;letter-spacing:1px;opacity:.7}
+
+.btn{
+    margin-top:40px;
+    padding:14px 28px;
+    border:none;
+    border-radius:40px;
+    font-size:1rem;
+    background:linear-gradient(135deg,#ff4e88,#ff9a9e);
+    color:white;
+    cursor:pointer;
+    box-shadow:0 10px 25px rgba(0,0,0,.15);
+    transition:.3s;
+}
+.btn:hover{transform:scale(1.07)}
+
+@keyframes fadeIn{from{opacity:0;transform:translateY(20px)}to{opacity:1}}
+
+/* CELEBRATION */
+.celebration{
+    position:absolute;inset:0;
+    display:flex;flex-direction:column;align-items:center;justify-content:center;
+    text-align:center;
+    background:radial-gradient(circle at center,#ff758c,#ff7eb3);
+    opacity:0;pointer-events:none;transition:1.5s;
+    padding:20px;
+}
+
+.celebration.show{opacity:1;pointer-events:auto}
+
+.celebration h1{
+    font-family:'Playfair Display',serif;
+    font-size:4.2rem;
+    color:white;
+    animation:glow 2s infinite alternate;
+}
+
+.message{max-width:700px;margin-top:25px;color:white;font-size:1.2rem;line-height:1.7}
+
+.buttons{margin-top:35px;display:flex;gap:15px;flex-wrap:wrap;justify-content:center}
+
+.wish-btn{
+    background:white;
+    color:#ff4e88;
+    border:none;
+    padding:12px 22px;
+    border-radius:30px;
+    cursor:pointer;
+    font-weight:600;
+    transition:.3s;
+}
+.wish-btn:hover{transform:scale(1.1)}
+
+.hidden-message{
+    margin-top:25px;
+    font-size:1.1rem;
+    color:#fff;
+    opacity:0;
+    transition:.5s;
+}
+.hidden-message.show{opacity:1}
+
+@keyframes glow{from{text-shadow:0 0 15px #fff}to{text-shadow:0 0 50px #ffd1dc}}
+
+/* CONFETTI */
+.confetti{position:absolute;width:10px;height:10px;background:hsl(var(--h),80%,65%);top:-10px;animation:fall linear infinite}
+@keyframes fall{to{transform:translateY(110vh) rotate(360deg)}}
+</style>
+</head>
+
+<body>
+
+<!-- FRONT -->
+<div class="front" id="front">
+    <h1>MERO sana Bipashaa💗</h1>
+    <p>Timrooo speciall day is arriving soon…😋</p>
+
+    <div class="timer">
+        <div class="box"><span id="days">00</span><small>DAYS</small></div>
+        <div class="box"><span id="hours">00</span><small>HOURS</small></div>
+        <div class="box"><span id="minutes">00</span><small>MINUTES</small></div>
+        <div class="box"><span id="seconds">00</span><small>SECONDS</small></div>
+    </div>
+
+    <button class="btn" onclick="showEarlyWish()">Open a Little Surprise ✨</button>
+</div>
+
+<!-- CELEBRATION -->
+<div class="celebration" id="celebration">
+    <h1>Happiest Birthday merooo Sanaaa mero puntuuuu🎉💖</h1>
+
+    <p class="message">
+        Happiest birthday my love of my lifee❤️❤️😍
+        Timi mero life ko sab vanda thulo blessing ho sana sab vandaa🥺❤️
+        Thankyou for comming to my life and making it wayy beautiful i have ever even think of manifested of❤️💞
+        you deserve all the love, peace, and happiness in the world. I’m always here for you, no matter what sana no matter whattt❤️😭
+    </p>
+
+    <div class="buttons">
+        <button class="wish-btn" onclick="revealWish(0)">💌 Love Note</button>
+        <button class="wish-btn" onclick="revealWish(1)">🌹 Sweet Wish</button>
+        <button class="wish-btn" onclick="revealWish(2)">✨ Forever Promise</button>
+    </div>
+
+    <div class="hidden-message" id="hiddenMessage"></div>
+</div>
+
+<script>
+const birthday = new Date("2026-02-06T00:00:00").getTime();
+
+const d = document.getElementById("days");
+const h = document.getElementById("hours");
+const m = document.getElementById("minutes");
+const s = document.getElementById("seconds");
+
+const front = document.getElementById("front");
+const celebration = document.getElementById("celebration");
+
+const timer = setInterval(()=>{
+    const now = new Date().getTime();
+    const diff = birthday - now;
+
+    if(diff<=0){
+        clearInterval(timer);
+        front.style.opacity="0";
+        setTimeout(()=>{
+            celebration.classList.add("show");
+            confetti();
+        },1000);
+        return;
+    }
+
+    d.textContent = Math.floor(diff/(1000*60*60*24));
+    h.textContent = Math.floor((diff/(1000*60*60))%24).toString().padStart(2,"0");
+    m.textContent = Math.floor((diff/(1000*60))%60).toString().padStart(2,"0");
+    s.textContent = Math.floor((diff/1000)%60).toString().padStart(2,"0");
+},1000);
+
+function confetti(){
+    for(let i=0;i<180;i++){
+        const c=document.createElement("div");
+        c.className="confetti";
+        c.style.left=Math.random()*100+"vw";
+        c.style.animationDuration=(Math.random()*3+2)+"s";
+        c.style.setProperty("--h",Math.random()*360);
+        document.body.appendChild(c);
+    }
+}
+
+function showEarlyWish(){
+    alert("Ruko jara sabar karoooo😝💖");
+}
+
+const wishes=[
+"Mero maya timro lagi kaile kam huna dinna sana timilai hijo ko din vanda voliko din aaaja badi maya dine xuu love you forever mero sani mero maya🥺💌",
+"Timile chaheko socheko manifest gareka kura sab vagwan le puraidinu hos. You will make your mamu baba proud one day!!🕉️ ",
+"I promise sana timro birthday ma ki aja deskhi i will work  on myself on my future jasari ni success vayera timro mamu baba lai hat magera timilai proudly mero behuli banaune xu❤️✨"
+];
+
+function revealWish(i){
+    const msg=document.getElementById("hiddenMessage");
+    msg.textContent=wishes[i];
+    msg.classList.add("show");
+}
+</script>
+
+</body>
+</html>
